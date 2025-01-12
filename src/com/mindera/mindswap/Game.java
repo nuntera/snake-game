@@ -43,7 +43,7 @@ public class Game {
      * Handles movement, collisions, and screen updates.
      */
     public void start() throws InterruptedException {
-        generateFruit(); // uncomment when it's time to introduce fruits
+        generateFruit();
 
         while (snake.isAlive()) {
             Thread.sleep(delay);
