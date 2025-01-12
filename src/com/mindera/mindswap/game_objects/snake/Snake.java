@@ -4,12 +4,19 @@ import com.mindera.mindswap.field.Position;
 
 import java.util.LinkedList;
 
+/**
+ * Represents the player's snake in the game.
+ * Manages snake movement and body segments.
+ */
 public class Snake {
     private final static int SNAKE_INITIAL_SIZE = 10;
-    private Direction direction;
-    private boolean alive;
-    private LinkedList<Position> body;
+    private Direction direction;    // Current movement direction
+    private boolean alive;         // Snake's life status
+    private LinkedList<Position> body;  // Snake body segments
 
+    /**
+     * Creates a new snake with default size and position
+     */
     public Snake() {
         this.alive = true;
         direction = Direction.LEFT;
@@ -19,11 +26,16 @@ public class Snake {
         }
     }
 
-
+    /**
+     * Increases snake size by adding a segment at the tail
+     */
     public void increaseSize() {
         body.add(new Position(this.getTail().getRow(), this.getTail().getCol()));
     }
 
+    /**
+     * Moves snake in specified direction
+     */
     public void move(Direction direction) {
         // Change direction
         this.direction = direction;
@@ -54,7 +66,6 @@ public class Snake {
         // Remove the last segment of the snake's body to simulate movement
         body.removeLast();
     }
-
 
     public void move() {
         move(direction);

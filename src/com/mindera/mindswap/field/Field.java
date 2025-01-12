@@ -12,23 +12,34 @@ import com.mindera.mindswap.game_objects.snake.Snake;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Manages the game field display and drawing operations.
+ * Uses Lanterna library for terminal-based graphics.
+ */
 public final class Field {
 
+    // Display characters for different game elements
     private static final String BORDER_STRING = "▒";
     private static final String SNAKE_BODY_STRING = "#";
     private static final String SNAKE_HEAD_STRING = "0";
     private static final String FRUIT_STRING = "@";
     private static final String OBSTACLE_STRING = "X";
 
-    private static int width;
-    private static int height;
-    private static Screen screen;
-    private static ScreenWriter screenWriter;
-    private static Set<Obstacle> obstacles;
+    private static int width;              // Field width
+    private static int height;             // Field height
+    private static Screen screen;          // Lanterna screen instance
+    private static ScreenWriter screenWriter;  // Helper for writing to screen
+    private static Set<Obstacle> obstacles;    // Collection of all obstacles
 
+    /**
+     * Private constructor to prevent instantiation
+     */
     private Field() {
     }
 
+    /**
+     * Initializes the game field with specified dimensions
+     */
     public static void init(int width, int height) {
 
         screen = TerminalFacade.createScreen();
@@ -48,6 +59,10 @@ public final class Field {
         screen.refresh();
     }
 
+    /**
+     * Draws the snake on the screen
+     * Changes color to red if snake is dead
+     */
     public static void drawSnake(Snake snake) {
 
         Terminal.Color snakeColor = Terminal.Color.GREEN;
@@ -68,11 +83,17 @@ public final class Field {
         screen.refresh();
     }
 
+    /**
+     * Clears the snake's tail position
+     */
     public static void clearTail(Snake snake) {
         Position tail = snake.getTail();
         screen.putString(tail.getCol(), tail.getRow(), " ", null, null);
     }
 
+    /**
+     * Draws the border walls of the field
+     */
     private static void drawWalls() {
         for (int i = 0; i < width; i++) {
             screenWriter.drawString(i, 0, BORDER_STRING);
@@ -90,7 +111,8 @@ public final class Field {
     }
 
     public static void drawFruit(Fruit fruit) {
-        screen.putString(fruit.getPosition().getCol(), fruit.getPosition().getRow(), FRUIT_STRING, Terminal.Color.MAGENTA, null);
+        screen.putString(fruit.getPosition().getCol(), fruit.getPosition().getRow(), FRUIT_STRING,
+                Terminal.Color.MAGENTA, null);
         screen.refresh();
     }
 
@@ -105,13 +127,18 @@ public final class Field {
     // New additions
     public static void drawObstacle(Obstacle obstacle) {
         obstacles.add(obstacle);
-        //Position pos = obstacle.getPosition();
-        screen.putString(obstacle.getPosition().getCol(), obstacle.getPosition().getRow(), OBSTACLE_STRING, Terminal.Color.WHITE, null);
+        screen.putString(obstacle.getPosition().getCol(), obstacle.getPosition().getRow(), OBSTACLE_STRING,
+                Terminal.Color.WHITE, null);
         screen.refresh();
     }
 
-
     public static Set<Obstacle> getObstacles() {
         return obstacles;
+    }
+
+    public static void close() {
+        if (screen != null) {
+            screen.stopScreen();
+        }
     }
 }

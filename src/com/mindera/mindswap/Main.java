@@ -1,5 +1,9 @@
 package com.mindera.mindswap;
 
+/**
+ * Entry point for the Snake game application.
+ * Initializes and starts the game with default settings.
+ */
 public class Main {
 
     public static void main(String[] args) {
